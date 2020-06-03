@@ -9,6 +9,8 @@ public class lesson3_hw {
     private static final char DOT_AI = '0';
     private static final char DOT_EMPTY = ' ';
 
+    private static final int victoryLenght = 4;
+
     private static int fieldSizeX;
     private static int fieldSizeY;
 
@@ -18,7 +20,7 @@ public class lesson3_hw {
     private static final Random RANDOM = new Random();
 
     public static void main(String[] args) {
-        int fieldSize = 3;
+        int fieldSize = 5;
         while (true) {
             init(fieldSize);
             printField();
@@ -77,15 +79,69 @@ public class lesson3_hw {
     }
 
     private static boolean isWinnerExists(char symb) {
-        for (int i = 0; i < fieldSizeY; i++) {
-            if ((field[i][0] == symb && field[i][1] == symb && field[i][2] == symb) ||
-                (field[0][i] == symb && field[1][i] == symb && field[2][i] == symb))
-                return true;
-            if ((field[0][0] == symb && field[1][1] == symb && field[2][2] == symb) ||
-                    (field[2][0] == symb && field[1][1] == symb && field[0][2] == symb))
-                return true;
+        for (int y = 0; y < fieldSizeY; y++) {
+            for (int x = 0; x < fieldSizeX; x++) {
+                if (field[y][x] == symb) {
+                    if (checkHorizontal(symb, x, y)) {
+                        return true;
+                    }
+                    if (checkVertical(symb, x, y)) {
+                        return true;
+                    }
+                    if (checkDiagonal(symb, x, y)) {
+                        return true;
+                    }
+                    if (checkDiagonalTwo(symb, x, y)) {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
+    }
+
+    private static boolean checkDiagonalTwo(char symb, int x, int y) {
+        if (x + victoryLenght < fieldSizeX || y + victoryLenght > fieldSizeY) {
+            return false;
+        } else {
+            for (int i = 0; i < victoryLenght; i++) {
+                if (field[y++][x--] != symb) return false;
+            }
+            return true;
+        }
+    }
+
+    private static boolean checkDiagonal(char symb, int x, int y) {
+        if (x + victoryLenght > fieldSizeX || y + victoryLenght > fieldSizeY) {
+            return false;
+        } else {
+            for (int i = 0; i < victoryLenght; i++) {
+                if (field[y++][x++] != symb) return false;
+            }
+            return true;
+        }
+    }
+
+    private static boolean checkVertical(char symb, int x, int y) {
+        if (y + victoryLenght > fieldSizeY) {
+            return false;
+        } else {
+            for (int i = 1; i < victoryLenght; i++) {
+                if (field[y+i][x] != symb) return false;
+            }
+            return true;
+        }
+    }
+
+    private static boolean checkHorizontal(char symb, int x, int y) {
+        if (x + victoryLenght > fieldSizeX) {
+            return false;
+        } else {
+            for (int i = 1; i < victoryLenght; i++) {
+                if (field[y][x+i] != symb) return false;
+            }
+            return true;
+        }
     }
 
     private static void humanTurn() {
