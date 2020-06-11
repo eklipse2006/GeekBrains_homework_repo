@@ -2,10 +2,16 @@ package lesson5_hw;
 
 public class Cat extends Animal{
 
+    private static int countCat;
+
     Cat(String name, String color, int age) {
         super(name, color, age);
+        countCat++;
     }
 
+    public static String getCount() {
+        return "Кошек всего: " + countCat + "; ";
+    }
 
     @Override
     public void run(int lenght) {

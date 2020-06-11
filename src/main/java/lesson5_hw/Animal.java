@@ -5,10 +5,13 @@ public abstract class Animal {
     private String color;
     private int age;
 
+    private static int countAnimal;
+
     Animal(String name, String color, int age) {
         this.name = name;
         this.color = color;
         this.age = age;
+        countAnimal++;
     }
 
     public abstract void run(int lenght);
@@ -21,8 +24,7 @@ public abstract class Animal {
         return name;
     }
 
-    public void info() {
-        System.out.println("Имя: " + name + "; Цвет: " + color + "; Возраст: " + age);
+    public static String countInfo() {
+        return "Животных всего: " + countAnimal + "; " + Dog.getCount() + Cat.getCount();
     }
-
 }
